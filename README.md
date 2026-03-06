@@ -5,8 +5,6 @@ This project brings together two complementary parts:
 1. **Artist Classification (ML):** A decision‑tree–based model trained on tabular audio features (e.g., BPM, danceability, acousticness) to predict an **artist** label from a track’s attributes.
 2. **Spotify Data Explorer:** A small Spotipy-based pipeline that pulls two artists’ discographies, computes **audio feature aggregates**, and prints a head‑to‑head comparison.
 
-It’s ideal for quick music data experiments, feature importance exploration, and explainable decision‑tree visualizations.
-
 ---
 
 ## ✨ Features
@@ -20,7 +18,6 @@ It’s ideal for quick music data experiments, feature importance exploration, a
 
 ## 📦 Project Contents
 
-> Adjust names if your repo uses different filenames.
 
 **What each file is for**
 
