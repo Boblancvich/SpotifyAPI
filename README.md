@@ -34,13 +34,73 @@ It’s ideal for quick music data experiments, feature importance exploration, a
   - **Spotify block**: asks for two artists, fetches albums → tracks → audio features, aggregates stats by artist, and prints a comparison.
 
 ---
+Dependencies
 
-## 🚀 Quickstart
+- pandas
+- numpy
+- matplotlib
+- scikit-learn
+- spotipy
+- graphviz
+- ipywidgets
 
-### 1) Create & activate a virtual environment
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
+## How it works
+
+1) Feature importance & model training
+
+Loads ai music.csv, selects the 9 numeric audio features as X, and artist as y.
+Splits train/test (test_size=0.2).
+Trains ExtraTreesClassifier → plots top features.
+Trains DecisionTreeClassifier → exports Graphviz .dot tree to kpop.dot.
+
+2) Spotify data collection & aggregation
+
+Prompts for two artists (e.g., “GOT7”, “BTS”).
+Uses Spotipy to:
+
+Find the artist URI via search.
+Enumerate albums → tracks → audio features (acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, valence) and popularity.
+
+
+Produces a deduplicated, popularity‑sorted CSV (Spotipy-stats.csv) with one row per unique track.
+Aggregates by Artist (means) and prints percent differences.
+
+## Findings
+
+The printed importances (matching bpm, nrgy, dnce, dB, live, val, dur, acous, spch) were:
+[0.1103, 0.1071, 0.1185, 0.0864, 0.0984, 0.1180, 0.1227, 0.1390, 0.0995]
+
+Top contributors appear to be:
+
+acous (acousticness) ≈ 0.139
+dur (duration) ≈ 0.123
+dnce (danceability) ≈ 0.119
+val (valence) ≈ 0.118
+
+Interpretation: in this dataset, timbre/production signals (acousticness), track length, and movement/positivity proxies (danceability/valence) are the strongest signals for predicting the artist label.
+
+## Sample artist comparison
+
+Various features were computed:
+
+Mean acousticness
+Mean danceability
+Mean energy
+…etc.
+
+For each artist in the dataset, eg: GOT7 and BTS, we can compare a features such as:
+
+| Artist    | Mean Acousticness |
+| -------- | ------- |
+| BTS  | 11.4188    |
+| GOT7 | 13.6988     |
+
+Difference=11.41877313.698829−11.418773​×100≈20%
+
+*GOT7 is approximately 20% more acoustic than BTS.*
+
+
+
+
+
+
